@@ -1,0 +1,85 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>Maven常用插件总结 | cwowhappy的博客</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/7.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Maven常用插件总结</h1><a id="logo" href="/.">cwowhappy的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Maven常用插件总结</h1><div class="post-meta">Nov 13, 2017<span> | </span><span class="category"><a href="/categories/Maven/">Maven</a></span></div><div class="clear"><div id="toc" class="toc-article"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-maven常用插件列表"><span class="toc-number">1.</span> <span class="toc-text">1. Maven常用插件列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-插件详细使用方法"><span class="toc-number">2.</span> <span class="toc-text">2. 插件详细使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-插件maven-shade-plugin"><span class="toc-number">2.1.</span> <span class="toc-text">2.1. 插件maven-shade-plugin</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#2-1-1-目标-goal"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1. 目标（Goal）</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-插件maven-assembly-plugin"><span class="toc-number">2.2.</span> <span class="toc-text">2.2. 插件maven-assembly-plugin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考资料"><span class="toc-number">2.3.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol></div></div><div class="post-content"><h3 id="1-maven常用插件列表">1. Maven常用插件列表</h3>
+<p>用户可以通过两种方式调用Maven插件goal：</p>
+<ol>
+<li>将插件目标与Maven的生命周期阶段绑定，用户直接执行生命周期阶段就会执行相应的插件目标</li>
+<li>直接指定要执行的插件目标（插件标识:插件目标）</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Plugin</th>
+<th style="text-align:left">目标-Goal</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">maven-compiler-plugin</td>
+<td style="text-align:left">compiler:compile编译src/main/java目录下的源代码；compiler:testCompile编译src/test/java目录下的源代码</td>
+<td style="text-align:left">编译源代码</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-resources-plugin</td>
+<td style="text-align:left">resources:resources拷贝src/main/resources目录下的资源文件到output目录；resources:testResources拷贝src/test/resources目录下的资源文件到测试output目录；resources:copy-resources拷贝资源到output目录；</td>
+<td style="text-align:left">处理资源文件,过滤资源文件并替换其中的变量（如果变量在filter配置的属性文件中则替换，否则不做处理）；默认绑定到Maven的compile阶段</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-jar-plugin</td>
+<td style="text-align:left"></td>
+<td style="text-align:left">Maven默认打包工具，默认绑定到Maven的package阶段</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-surefire-plugin</td>
+<td style="text-align:left">surefire:test执行项目的测试用例，默认绑定到Maven的test阶段</td>
+<td style="text-align:left">执行项目的测试用例</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-archetype-plugin</td>
+<td style="text-align:left">archetype:generate根据指定的archetype生成项目骨架</td>
+<td style="text-align:left">创建项目骨架</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-shade-plugin</td>
+<td style="text-align:left">详情见单独的笔记</td>
+<td style="text-align:left">打包工具</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-assembly-plugin</td>
+<td style="text-align:left">详情见单独的笔记</td>
+<td style="text-align:left">打包工具</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-antrun-plugin</td>
+<td style="text-align:left">run</td>
+<td style="text-align:left">在Maven项目中执行Ant任务</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-dependency-plugin</td>
+<td style="text-align:left">dependency:list列出项目的依赖列表；dependency:tree描绘项目依赖树；dependency:analyze检查分析项目依赖潜在的问题；dependency:copy-dependencies将项目依赖从Maven本地仓库复制到指定目录；</td>
+<td style="text-align:left">帮助用户分析项目依赖</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-enforcer-plugin</td>
+<td style="text-align:left">enforcer:enforce负责执行规则检查，默认绑定到生命周期的validate阶段；enforcer:display-info打印内置规则检测后的信息</td>
+<td style="text-align:left">强制参与项目开发的工程师遵守执行的跟Maven配置相关的规则（设定Java版本、设定Maven版本、禁止某些依赖等）</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-help-plugin</td>
+<td style="text-align:left">help:system答应所有可用的环境变量和Java系统属性；help:effective-pom打印项目的有效pom（合并了所有父pom的pom文件）；help:effective-setting打印项目的有效settings；help:describe打印任意Maven插件的信息</td>
+<td style="text-align:left">辅助工具</td>
+</tr>
+<tr>
+<td style="text-align:left">maven-release-plugin</td>
+<td style="text-align:left">release:prepare准备版本发布，具体工作包括：检查是否有未提交的代码、检查是否有SNAPSHOT依赖、升级项目的SNAPSHOT版本至RELEASE版本、为项目打标签等；release:perform签出标签中的Release源码，构建并发布；</td>
+<td style="text-align:left">自动化项目版本发布，依赖于项目pom中的SCM信息</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-插件详细使用方法">2. 插件详细使用方法</h3>
+<h4 id="2-1-插件maven-shade-plugin">2.1. 插件maven-shade-plugin</h4>
+<h5 id="2-1-1-目标-goal">2.1.1. 目标（Goal）</h5>
+<p><code>shade:shade</code>绑定到Maven的package阶段</p>
+<h4 id="2-2-插件maven-assembly-plugin">2.2. 插件maven-assembly-plugin</h4>
+<h4 id="参考资料">参考资料</h4>
+<p>[1] http://www.infoq.com/cn/news/2011/04/xxb-maven-7-plugin</p>
+</div><div class="tags"><a href="/tags/Maven/">Maven</a></div><div class="post-nav"><a href="/2017/11/13/hello-world/" class="next">Hello World</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://www.cwowhappy.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Maven/" style="font-size: 15px;">Maven</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/11/13/maven-plugins/">Maven常用插件总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/13/hello-world/">Hello World</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2017 <a href="/." rel="nofollow">cwowhappy的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.1.20/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
